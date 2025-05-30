@@ -15,6 +15,10 @@ function get_user_points($user_id) {
 function get_user_transactions($user_id, $limit = 20, $offset = 0) {
     global $pdo;
     
+    // 確保 limit 和 offset 是整數
+    $limit = (int)$limit;
+    $offset = (int)$offset;
+    
     $stmt = $pdo->prepare("SELECT pt.*, 
                           from_user.name as from_user_name,
                           to_user.name as to_user_name
@@ -23,8 +27,8 @@ function get_user_transactions($user_id, $limit = 20, $offset = 0) {
                           LEFT JOIN User to_user ON pt.to_user_id = to_user.user_id
                           WHERE pt.from_user_id = ? OR pt.to_user_id = ?
                           ORDER BY pt.created_at DESC
-                          LIMIT ? OFFSET ?");
-    $stmt->execute([$user_id, $user_id, $limit, $offset]);
+                          LIMIT $limit OFFSET $offset");
+    $stmt->execute([$user_id, $user_id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -81,12 +85,4 @@ function transfer_points($from_user_id, $to_user_id, $amount, $reason = '點數�
         $pdo->rollBack();
         return '轉讓失敗，請稍後再試';
     }
-}
-
-function get_user_by_email($email) {
-    global $pdo;
-    
-    $stmt = $pdo->prepare("SELECT user_id, name, email FROM User WHERE email = ?");
-    $stmt->execute([$email]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
 }

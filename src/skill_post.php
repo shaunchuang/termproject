@@ -4,16 +4,20 @@
 function get_all_posts($search = '', $limit = 20, $offset = 0) {
     global $pdo;
     
+    // 確保 limit 和 offset 是整數
+    $limit = (int)$limit;
+    $offset = (int)$offset;
+    
     $sql = "SELECT p.*, u.name as author_name 
             FROM SkillPost p 
             JOIN User u ON p.user_id = u.user_id 
             WHERE p.title LIKE ? OR p.description LIKE ?
             ORDER BY p.created_at DESC 
-            LIMIT ? OFFSET ?";
+            LIMIT $limit OFFSET $offset";
     
     $searchTerm = '%' . $search . '%';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$searchTerm, $searchTerm, $limit, $offset]);
+    $stmt->execute([$searchTerm, $searchTerm]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -76,7 +80,11 @@ function delete_post($post_id, $user_id) {
 function get_user_posts($user_id, $limit = 20, $offset = 0) {
     global $pdo;
     
-    $stmt = $pdo->prepare("SELECT * FROM SkillPost WHERE user_id = ? ORDER BY created_at DESC LIMIT ? OFFSET ?");
-    $stmt->execute([$user_id, $limit, $offset]);
+    // 確保 limit 和 offset 是整數
+    $limit = (int)$limit;
+    $offset = (int)$offset;
+    
+    $stmt = $pdo->prepare("SELECT * FROM SkillPost WHERE user_id = ? ORDER BY created_at DESC LIMIT $limit OFFSET $offset");
+    $stmt->execute([$user_id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

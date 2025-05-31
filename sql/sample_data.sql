@@ -2,9 +2,9 @@
 
 -- 插入示範用戶（密碼都是 password123）
 INSERT INTO `User` (`name`, `email`, `password_hash`) VALUES 
-('Alice Chen', 'alice@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'),
-('Bob Wang', 'bob@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'),
-('Carol Li', 'carol@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+('Alice Chen', 'alice@example.com', '$2y$10$LQMoEf7uNpiDilsuUhZpDuKP08m8sbecerWbLdBFH.jtWwOCa8xHS'),
+('Bob Wang', 'bob@example.com', '$2y$10$LQMoEf7uNpiDilsuUhZpDuKP08m8sbecerWbLdBFH.jtWwOCa8xHS'),
+('Carol Li', 'carol@example.com', '$2y$10$LQMoEf7uNpiDilsuUhZpDuKP08m8sbecerWbLdBFH.jtWwOCa8xHS');
 
 -- 插入示範技能貼文
 INSERT INTO `SkillPost` (`user_id`, `title`, `description`, `point_cost`) VALUES 
